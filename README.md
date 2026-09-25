@@ -16,6 +16,9 @@ The virtual machine uses a stack to store temporary values. The stack supports b
 - `POP`: Pop a value from the _[stack]_.
 - `SET <register> <value>`: Set the value of a _[register]_.
 - `ADD`: Add the top two values on the _[stack]_.
+- `SUB`: Subtract the top two values on the _[stack]_.
+- `MUL`: Multiply the top two values on the _[stack]_.
+- `DIV`: Divide the top two values on the _[stack]_.
 - `STP`: Stop the execution of the _[program]_.
 
 ## Program
