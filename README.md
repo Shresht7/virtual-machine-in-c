@@ -4,7 +4,14 @@ A simple stack-based virtual machine implemented in C.
 
 ## Registers
 
-6 general-purpose registers `A`, `B`, `C`, `D`, `E`, `F`
+### General-Purpose Registers
+
+6 general-purpose registers `A`, `B`, `C`, `D`, `E`, `F`.
+
+### Special-Purpose Registers
+
+- `IP`: The [instruction pointer][instruction-pointer] that keeps track of the current _[instruction]_ being executed. Starts at `0`, at the beginning of the _[program]_.
+- `SP`: The [stack pointer][stack-pointer] that keeps track of the top of the _[stack]_.
 
 ## Stack
 
@@ -79,6 +86,10 @@ gdb ./vm
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 [stack]: #stack
+[sp]: #stack-pointer
+[stack-pointer]: #stack-pointer
 [register]: #registers
+[ip]: #program-counter-or-instruction-pointer
+[instruction-pointer]: #program-counter-or-instruction-pointer
 [program]: #program
 [instructions]: #instructions
