@@ -12,26 +12,35 @@ The virtual machine uses a stack to store temporary values. The stack supports b
 
 ## Instructions
 
-- `PSH <value>`: Push a value onto the _[stack]_.
-- `POP`: Pop a value from the _[stack]_.
-- `SET <register> <value>`: Set the value of a _[register]_.
-- `ADD`: Add the top two values on the _[stack]_.
-- `SUB`: Subtract the top two values on the _[stack]_.
-- `MUL`: Multiply the top two values on the _[stack]_.
-- `DIV`: Divide the top two values on the _[stack]_.
-- `STP`: Stop the execution of the _[program]_.
+| Code | Instruction              | Description                                   |
+| ---- | ------------------------ | --------------------------------------------- |
+| `0`  | `PSH <value>`            | Push a value onto the _[stack]_.              |
+| `1`  | `POP`                    | Pop a value from the _[stack]_.               |
+| `2`  | `SET <register> <value>` | Set the value of a _[register]_.              |
+| `3`  | `ADD`                    | Add the top two values on the _[stack]_.      |
+| `4`  | `SUB`                    | Subtract the top two values on the _[stack]_. |
+| `5`  | `MUL`                    | Multiply the top two values on the _[stack]_. |
+| `6`  | `DIV`                    | Divide the top two values on the _[stack]_.   |
+| `7`  | `STP`                    | Stop the execution of the _[program]_.        |
 
 ## Program
 
-Read only sequence of _[instructions]_
+Read only sequence of _[instructions]_.
 
-```c
+```asm
 PSH 3
 PSH 4
 ADD
 POP
 STP
 ```
+
+To the virtual machine, this is simply an sequence of numbers.
+
+```asm
+0 3 0 4 3 1 7
+```
+
 
 ## Program Counter or Instruction Pointer
 
