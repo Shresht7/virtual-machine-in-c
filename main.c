@@ -49,6 +49,26 @@ int ip = 0;
 // Flag to indicate if the virtual machine is running
 int RUNNING = 1;
 
+// REGISTERS
+// ---------
+
+// The set of all general-purpose registers in the virtual machine
+typedef enum
+{
+    A,            // General-purpose register A
+    B,            // General-purpose register B
+    C,            // General-purpose register C
+    D,            // General-purpose register D
+    E,            // General-purpose register E
+    F,            // General-purpose register F
+    IP,           // Instruction pointer register
+    SP,           // Stack pointer register
+    NUM_REGISTERS // Total number of general-purpose registers
+} RegisterSet;
+
+// Array to hold the values of the general-purpose registers
+int registers[NUM_REGISTERS] = {0};
+
 // STACK
 // -----
 
@@ -76,24 +96,6 @@ int pop()
     }
     return stack[sp--]; // Pop the value from the stack and then decrement the stack pointer
 }
-
-// REGISTERS
-// ---------
-
-// The set of all general-purpose registers in the virtual machine
-typedef enum
-{
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    NUM_REGISTERS // Total number of general-purpose registers
-} RegisterSet;
-
-// Array to hold the values of the general-purpose registers
-int registers[NUM_REGISTERS] = {0};
 
 // FETCH
 // -----
