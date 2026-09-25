@@ -13,6 +13,7 @@ typedef enum
     ADD,
     SUB,
     MUL,
+    DIV,
     STP,
 } InstructionSet;
 
@@ -136,6 +137,24 @@ void execute(int instruction)
         int b = pop();   // Pop the next value from the stack
         int res = b * a; // Calculate the result of multiplying the two values
         push(res);       // Push the result back onto the stack
+    }
+    break;
+
+    // DIV: Pop the top two values from the stack, divide the second by the first, and push the result back onto the stack
+    case DIV:
+    {
+        int a = pop(); // Pop the top value from the stack
+        int b = pop(); // Pop the next value from the stack
+        if (a == 0)
+        {
+            printf("Division by zero is not defined!\n");
+            push(b); // Push the second value back onto the stack
+        }
+        else
+        {
+            int res = b / a; // Calculate the result of dividing the two values
+            push(res);       // Push the result back onto the stack
+        }
     }
     break;
 
