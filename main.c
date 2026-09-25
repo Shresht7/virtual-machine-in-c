@@ -105,6 +105,16 @@ void execute(int instruction)
         printf("%d\n", value); // Print the popped value
         break;
 
+    // ADD: Pop the top two values from the stack, add them, and push the result back onto the stack
+    case ADD:
+    {
+        int a = pop();   // Pop the top value from the stack
+        int b = pop();   // Pop the next value from the stack
+        int res = b + a; // Calculate the result of adding the two values
+        push(res);       // Push the result back onto the stack
+    }
+    break;
+
     // STP: Stop the execution of the virtual machine
     case STP:
         RUNNING = 0; // Stop the execution of the virtual machine
