@@ -39,10 +39,6 @@ const int program[] = {
     STP,
 };
 
-// The instruction pointer (or program counter) keeps track of the current instruction being executed by the virtual machine.
-// Simply serves as the index in the program array as to which instruction is currently being executed.
-int ip = 0;
-
 // VM STATE
 // --------
 
@@ -67,34 +63,34 @@ typedef enum
 } RegisterSet;
 
 // Array to hold the values of the general-purpose registers
-int registers[NUM_REGISTERS] = {0};
+int REGISTER[NUM_REGISTERS] = {0};
 
 // STACK
 // -----
 
 #define STACK_SIZE 256 // Maximum size of the stack used by the virtual machine
-int stack[STACK_SIZE]; // The stack used by the virtual machine to store values
-int sp = -1;           // Stack pointer. initialized to -1 indicating an empty stack
+int STACK[STACK_SIZE]; // The stack used by the virtual machine to store values
+REGISTER[SP] = -1;     // Initialize the stack pointer register to -1 indicating an empty stack
 
 // Push a value onto the stack
 void push(int value)
 {
-    if (sp >= STACK_SIZE - 1)
+    if (REGISTER[SP] >= STACK_SIZE - 1)
     {
         printf("Stack overflow!\n");
         return;
     }
-    stack[++sp] = value; // Push the value onto the stack and only then increment the stack pointer
+    STACK[++REGISTER[SP]] = value; // Push the value onto the stack and only then increment the stack pointer
 }
 // Pop a value from the stack, and return it
 int pop()
 {
-    if (sp < 0)
+    if (REGISTER[SP] < 0)
     {
         printf("Stack underflow!\n");
         return -1; // Return an error value indicating stack underflow
     }
-    return stack[sp--]; // Pop the value from the stack and then decrement the stack pointer
+    return STACK[REGISTER[SP]--]; // Pop the value from the stack and then decrement the stack pointer
 }
 
 // FETCH
@@ -103,7 +99,7 @@ int pop()
 // Fetch the current instruction pointed to by the instruction pointer (ip) from the program array
 int fetch()
 {
-    return program[ip];
+    return program[REGISTER[IP]];
 }
 
 // EXECUTE
@@ -119,8 +115,8 @@ void execute(int instruction)
     {
     // PUSH: Push a value onto the stack
     case PSH:
-        ip++;                // Move to the next instruction which should be the value to push
-        value = program[ip]; // Fetch the value to push from the next instruction in the program array
+        REGISTER[IP]++;                // Move to the next instruction which should be the value to push
+        value = program[REGISTER[IP]]; // Fetch the value to push from the next instruction in the program array
         push(value);
         break;
 
@@ -132,14 +128,14 @@ void execute(int instruction)
 
     // SET: Set the value of a register
     case SET:
-        ip++; // Move to the next instruction which should be the register index
+        REGISTER[IP]++; // Move to the next instruction which should be the register index
         {
-            int reg = program[ip]; // Fetch the register index from the next instruction in the program array
-            ip++;                  // Move to the next instruction which should be the value to set
-            value = program[ip];   // Fetch the value to set from the next instruction in the program array
+            int reg = program[REGISTER[IP]]; // Fetch the register index from the next instruction in the program array
+            REGISTER[IP]++;                  // Move to the next instruction which should be the value to set
+            value = program[REGISTER[IP]];   // Fetch the value to set from the next instruction in the program array
             if (reg >= 0 && reg < NUM_REGISTERS)
             {
-                registers[reg] = value; // Set the value of the specified register
+                REGISTER[reg] = value; // Set the value of the specified register
             }
             else
             {
@@ -201,7 +197,7 @@ void execute(int instruction)
         RUNNING = 0; // Stop the execution of the virtual machine
         break;
 
-        // Unknown: Handle unknown instructions gracefully
+    // Unknown: Handle unknown instructions gracefully
     default:
         printf("Unknown instruction: %d\n", instruction);
         RUNNING = 0; // Stop the execution of the virtual machine
@@ -221,7 +217,7 @@ int main(void)
     {
         int instruction = fetch(); // Fetch the current instruction from the program array
         execute(instruction);      // Execute the fetched instruction
-        ip++;                      // Increment the instruction pointer to point to the next instruction in the program array
+        REGISTER[IP]++;            // Increment the instruction pointer to point to the next instruction in the program array
     }
 
     return 0; // Return 0 to indicate successful execution of the program
