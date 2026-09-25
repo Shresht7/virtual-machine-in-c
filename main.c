@@ -77,6 +77,24 @@ int pop()
     return stack[sp--]; // Pop the value from the stack and then decrement the stack pointer
 }
 
+// REGISTERS
+// ---------
+
+// The set of all general-purpose registers in the virtual machine
+typedef enum
+{
+    A,
+    B,
+    C,
+    D,
+    E,
+    F,
+    NUM_REGISTERS // Total number of general-purpose registers
+} RegisterSet;
+
+// Array to hold the values of the general-purpose registers
+int registers[NUM_REGISTERS] = {0};
+
 // FETCH
 // -----
 
