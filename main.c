@@ -92,14 +92,28 @@ void execute(int instruction)
     // Execute the instruction based on its type
     switch (instruction)
     {
-    // FIX: Will consider 4 as STP and stop the execution of the virtual machine!
+    // PUSH: Push a value onto the stack
+    case PSH:
+        ip++;                    // Move to the next instruction which should be the value to push
+        int value = program[ip]; // Fetch the value to push from the next instruction in the program array
+        push(value);
+        break;
+
+    // POP: Pop the top value from the stack and print it
+    case POP:
+        int value = pop();     // Pop the top value from the stack
+        printf("%d\n", value); // Print the popped value
+        break;
+
+    // STP: Stop the execution of the virtual machine
     case STP:
         RUNNING = 0; // Stop the execution of the virtual machine
         break;
 
+        // Unknown: Handle unknown instructions gracefully
     default:
         printf("Unknown instruction: %d\n", instruction);
-        // running = 0; // Stop the execution of the virtual machine on unknown instruction
+        RUNNING = 0; // Stop the execution of the virtual machine
         break;
     }
 }
