@@ -89,19 +89,21 @@ int fetch()
 // Execute the given instruction by the virtual machine.
 void execute(int instruction)
 {
+    int value; // Temporary variable to hold values for stack operations
+
     // Execute the instruction based on its type
     switch (instruction)
     {
     // PUSH: Push a value onto the stack
     case PSH:
-        ip++;                    // Move to the next instruction which should be the value to push
-        int value = program[ip]; // Fetch the value to push from the next instruction in the program array
+        ip++;                // Move to the next instruction which should be the value to push
+        value = program[ip]; // Fetch the value to push from the next instruction in the program array
         push(value);
         break;
 
     // POP: Pop the top value from the stack and print it
     case POP:
-        int value = pop();     // Pop the top value from the stack
+        value = pop();         // Pop the top value from the stack
         printf("%d\n", value); // Print the popped value
         break;
 
