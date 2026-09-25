@@ -12,6 +12,7 @@ typedef enum
     SET,
     ADD,
     SUB,
+    MUL,
     STP,
 } InstructionSet;
 
@@ -124,6 +125,16 @@ void execute(int instruction)
         int a = pop();   // Pop the top value from the stack
         int b = pop();   // Pop the next value from the stack
         int res = b - a; // Calculate the result of subtracting the two values
+        push(res);       // Push the result back onto the stack
+    }
+    break;
+
+    // MUL: Pop the top two values from the stack, multiply them, and push the result back onto the stack
+    case MUL:
+    {
+        int a = pop();   // Pop the top value from the stack
+        int b = pop();   // Pop the next value from the stack
+        int res = b * a; // Calculate the result of multiplying the two values
         push(res);       // Push the result back onto the stack
     }
     break;
