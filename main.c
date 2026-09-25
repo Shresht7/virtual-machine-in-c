@@ -30,8 +30,13 @@ const int program[] = {
     STP,
 };
 
+// The instruction pointer (or program counter) keeps track of the current instruction being executed by the virtual machine.
+// Simply serves as the index in the program array as to which instruction is currently being executed.
+int ip = 0;
+
 int main(void)
 {
-    printf("Hello, Virtual Machine!\n");
+    int instruction = program[ip];
+    printf("Current instruction: %d\n", instruction);
     return 0;
 }
