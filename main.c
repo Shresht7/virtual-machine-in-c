@@ -46,6 +46,34 @@ int ip = 0;
 // Flag to indicate if the virtual machine is running
 int RUNNING = 1;
 
+// STACK
+// -----
+
+#define STACK_SIZE 256 // Maximum size of the stack used by the virtual machine
+int stack[STACK_SIZE]; // The stack used by the virtual machine to store values
+int sp = -1;           // Stack pointer. initialized to -1 indicating an empty stack
+
+// Push a value onto the stack
+void push(int value)
+{
+    if (sp >= STACK_SIZE - 1)
+    {
+        printf("Stack overflow!\n");
+        return;
+    }
+    stack[++sp] = value; // Push the value onto the stack and only then increment the stack pointer
+}
+// Pop a value from the stack, and return it
+int pop()
+{
+    if (sp < 0)
+    {
+        printf("Stack underflow!\n");
+        return -1; // Return an error value indicating stack underflow
+    }
+    return stack[sp--]; // Pop the value from the stack and then decrement the stack pointer
+}
+
 // FETCH
 // -----
 
