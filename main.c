@@ -1,4 +1,15 @@
+// Library
 #include <stdio.h>
+
+// The set of all instructions of the virtual machine
+typedef enum
+{
+    PSH,
+    POP,
+    SET,
+    ADD,
+    STP,
+} InstructionSet;
 
 int main(void)
 {
