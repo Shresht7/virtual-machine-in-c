@@ -128,6 +128,24 @@ void execute(int instruction)
         printf("%d\n", value); // Print the popped value
         break;
 
+    // SET: Set the value of a register
+    case SET:
+        ip++; // Move to the next instruction which should be the register index
+        {
+            int reg = program[ip]; // Fetch the register index from the next instruction in the program array
+            ip++;                  // Move to the next instruction which should be the value to set
+            value = program[ip];   // Fetch the value to set from the next instruction in the program array
+            if (reg >= 0 && reg < NUM_REGISTERS)
+            {
+                registers[reg] = value; // Set the value of the specified register
+            }
+            else
+            {
+                printf("Invalid register index!\n");
+            }
+        }
+        break;
+
     // ADD: Pop the top two values from the stack, add them, and push the result back onto the stack
     case ADD:
     {
