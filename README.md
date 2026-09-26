@@ -80,6 +80,7 @@ gdb ./vm
 ## Reference
 
 - [Virtual Machine in C](https://web.archive.org/web/20200121100942/https://blog.felixangell.com/virtual-machine-in-c/)
+- [Write your Own Virtual Machine](https://www.jmeiners.com/lc3-vm/)
 
 ## License
 
