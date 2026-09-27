@@ -156,6 +156,8 @@ void execute(int instruction)
 
     // POP: Pop the top value from the stack and print it
     case POP:
+        if (!require(1))
+            break;             // Stop execution if there are not enough values on the stack
         value = pop();         // Pop the top value from the stack
         printf("%d\n", value); // Print the popped value
         break;
