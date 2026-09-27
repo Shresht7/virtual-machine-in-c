@@ -104,6 +104,18 @@ int pop()
     return STACK[REGISTER[SP]--]; // Pop the value from the stack and then decrement the stack pointer
 }
 
+// Helper function to verify that the stack holds at least `count` values before an instruction consumes them
+int require(int count)
+{
+    if (REGISTER[SP] < count - 1)
+    {
+        printf("Stack Underflow!\n");
+        RUNNING = 0; // Stop the execution instead of computing with garbage
+        return 0;
+    }
+    return 1;
+}
+
 // FETCH
 // -----
 
@@ -162,51 +174,59 @@ void execute(int instruction)
 
     // ADD: Pop the top two values from the stack, add them, and push the result back onto the stack
     case ADD:
-    {
-        int a = pop();   // Pop the top value from the stack
-        int b = pop();   // Pop the next value from the stack
-        int res = b + a; // Calculate the result of adding the two values
-        push(res);       // Push the result back onto the stack
-    }
-    break;
+        if (!require(2))
+            break;
+        {
+            int a = pop();   // Pop the top value from the stack
+            int b = pop();   // Pop the next value from the stack
+            int res = b + a; // Calculate the result of adding the two values
+            push(res);       // Push the result back onto the stack
+        }
+        break;
 
     // SUB: Pop the top two values from the stack, subtract the second from the first, and push the result back onto the stack
     case SUB:
-    {
-        int a = pop();   // Pop the top value from the stack
-        int b = pop();   // Pop the next value from the stack
-        int res = b - a; // Calculate the result of subtracting the two values
-        push(res);       // Push the result back onto the stack
-    }
-    break;
+        if (!require(2))
+            break;
+        {
+            int a = pop();   // Pop the top value from the stack
+            int b = pop();   // Pop the next value from the stack
+            int res = b - a; // Calculate the result of subtracting the two values
+            push(res);       // Push the result back onto the stack
+        }
+        break;
 
     // MUL: Pop the top two values from the stack, multiply them, and push the result back onto the stack
     case MUL:
-    {
-        int a = pop();   // Pop the top value from the stack
-        int b = pop();   // Pop the next value from the stack
-        int res = b * a; // Calculate the result of multiplying the two values
-        push(res);       // Push the result back onto the stack
-    }
-    break;
+        if (!require(2))
+            break;
+        {
+            int a = pop();   // Pop the top value from the stack
+            int b = pop();   // Pop the next value from the stack
+            int res = b * a; // Calculate the result of multiplying the two values
+            push(res);       // Push the result back onto the stack
+        }
+        break;
 
     // DIV: Pop the top two values from the stack, divide the second by the first, and push the result back onto the stack
     case DIV:
-    {
-        int a = pop(); // Pop the top value from the stack
-        int b = pop(); // Pop the next value from the stack
-        if (a == 0)
+        if (!require(2))
+            break;
         {
-            printf("Division by zero is not defined!\n");
-            push(b); // Push the second value back onto the stack
+            int a = pop(); // Pop the top value from the stack
+            int b = pop(); // Pop the next value from the stack
+            if (a == 0)
+            {
+                printf("Division by zero is not defined!\n");
+                push(b); // Push the second value back onto the stack
+            }
+            else
+            {
+                int res = b / a; // Calculate the result of dividing the two values
+                push(res);       // Push the result back onto the stack
+            }
         }
-        else
-        {
-            int res = b / a; // Calculate the result of dividing the two values
-            push(res);       // Push the result back onto the stack
-        }
-    }
-    break;
+        break;
 
     // STP: Stop the execution of the virtual machine
     case STP:
