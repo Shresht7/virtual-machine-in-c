@@ -39,6 +39,9 @@ const int program[] = {
     STP,
 };
 
+// The total length of the program
+const int program_length = sizeof(program) / sizeof(program[0]);
+
 // VM STATE
 // --------
 
@@ -107,6 +110,11 @@ int pop()
 // Fetch the current instruction pointed to by the instruction pointer (ip) from the program array
 int fetch()
 {
+    if (REGISTER[IP] < 0 || REGISTER[IP] >= program_length)
+    {
+        printf("Instruction pointer out of bounds!\n");
+        return STP; // Stop the machine!
+    }
     return program[REGISTER[IP]];
 }
 
