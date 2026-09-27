@@ -1,6 +1,7 @@
 // Library
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // INSTRUCTION SET
 // ---------------
@@ -295,10 +296,53 @@ void load_program(const char *filename)
     {
         if (c == ' ' || c == '\n' || c == '\t')
         {
-            word[w] = '\0';          // Null-terminate the current word
-            int number = atoi(word); // Convert the current word to an number
-            program[p++] = number;   // Store the converted number in the program array, and move the program cursor to the next position
-            w = 0;                   // Reset the word index for the next word
+            word[w] = '\0'; // Null-terminate the current word
+
+            int instruction = -1;
+            if (strncmp(word, "PSH", 3) == 0)
+            {
+                instruction = PSH;
+            }
+            else if (strncmp(word, "POP", 3) == 0)
+            {
+                instruction = POP;
+            }
+            else if (strncmp(word, "ADD", 3) == 0)
+            {
+                instruction = ADD;
+            }
+            else if (strncmp(word, "SUB", 3) == 0)
+            {
+                instruction = SUB;
+            }
+            else if (strncmp(word, "MUL", 3) == 0)
+            {
+                instruction = MUL;
+            }
+            else if (strncmp(word, "DIV", 3) == 0)
+            {
+                instruction = DIV;
+            }
+            else if (strncmp(word, "SET", 3) == 0)
+            {
+                instruction = SET;
+            }
+            else if (strncmp(word, "STP", 3) == 0)
+            {
+                instruction = STP;
+            }
+
+            if (instruction != -1)
+            {
+                program[p++] = instruction; // Store the instruction in the program array and move the program cursor to the next position
+            }
+            else
+            {
+                int number = atoi(word); // Convert the current word to an number
+                program[p++] = number;   // Store the converted number in the program array, and move the program cursor to the next position
+            }
+
+            w = 0; // Reset the word index for the next word
         }
         else
         {
@@ -315,12 +359,6 @@ void load_program(const char *filename)
     }
 
     program_length = p; // Store the length of the program in the program_length variable
-
-    for (int i = 0; i < program_length; i++)
-    {
-        printf("%d ", program[i]); // Print each instruction in the program array
-    }
-    printf("\n"); // Print a newline after printing all instructions
 
     fclose(file);
 }
