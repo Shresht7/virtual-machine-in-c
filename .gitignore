@@ -4,3 +4,6 @@
 # Executable Files
 *.exe
 *.out
+
+# VS Code
+.vscode/
