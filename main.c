@@ -119,15 +119,22 @@ int require(int count)
 // FETCH
 // -----
 
+// Read the word at `index`, halting the VM if it is out of bounds
+int read(int index)
+{
+    if (index < 0 || index >= program_length)
+    {
+        printf("Out-of-bounds read at %d\n", index);
+        RUNNING = 0;
+        return 0;
+    }
+    return program[index]; // Return the value at the specified index if it is within bounds
+}
+
 // Fetch the current instruction pointed to by the instruction pointer (ip) from the program array
 int fetch()
 {
-    if (REGISTER[IP] < 0 || REGISTER[IP] >= program_length)
-    {
-        printf("Instruction pointer out of bounds!\n");
-        return STP; // Stop the machine!
-    }
-    return program[REGISTER[IP]];
+    return read(REGISTER[IP]);
 }
 
 // EXECUTE
@@ -143,8 +150,7 @@ void execute(int instruction)
     {
     // PUSH: Push a value onto the stack
     case PSH:
-        REGISTER[IP]++;                // Move to the next instruction which should be the value to push
-        value = program[REGISTER[IP]]; // Fetch the value to push from the next instruction in the program array
+        value = read(++REGISTER[IP]); // Fetch the value to push from the next instruction in the program array
         push(value);
         break;
 
@@ -158,9 +164,9 @@ void execute(int instruction)
     case SET:
         REGISTER[IP]++; // Move to the next instruction which should be the register index
         {
-            int reg = program[REGISTER[IP]]; // Fetch the register index from the next instruction in the program array
-            REGISTER[IP]++;                  // Move to the next instruction which should be the value to set
-            value = program[REGISTER[IP]];   // Fetch the value to set from the next instruction in the program array
+            int reg = read(++REGISTER[IP]); // Fetch the register index from the next instruction in the program array
+            REGISTER[IP]++;                 // Move to the next instruction which should be the value to set
+            value = read(REGISTER[IP]);     // Fetch the value to set from the next instruction in the program array
             if (reg >= 0 && reg < NUM_GENERAL_REGISTERS)
             {
                 REGISTER[reg] = value; // Set the value of the specified register
