@@ -70,7 +70,6 @@ int REGISTER[NUM_REGISTERS] = {0};
 
 #define STACK_SIZE 256 // Maximum size of the stack used by the virtual machine
 int STACK[STACK_SIZE]; // The stack used by the virtual machine to store values
-REGISTER[SP] = -1;     // Initialize the stack pointer register to -1 indicating an empty stack
 
 // Push a value onto the stack
 void push(int value)
@@ -212,6 +211,9 @@ void execute(int instruction)
 // The main function of the virtual machine. It initializes the running flag and enters the main execution loop.
 int main(void)
 {
+    REGISTER[SP] = -1; // Initialize the stack pointer register to -1 indicating an empty stack
+    REGISTER[IP] = 0;  // Initialize the instruction pointer register to 0 indicating the start of the program
+
     // Main execution loop of the virtual machine
     while (RUNNING)
     {
