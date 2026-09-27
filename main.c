@@ -51,15 +51,24 @@ int RUNNING = 1;
 // The set of all general-purpose registers in the virtual machine
 typedef enum
 {
-    A,            // General-purpose register A
-    B,            // General-purpose register B
-    C,            // General-purpose register C
-    D,            // General-purpose register D
-    E,            // General-purpose register E
-    F,            // General-purpose register F
-    IP,           // Instruction pointer register
-    SP,           // Stack pointer register
-    NUM_REGISTERS // Total number of general-purpose registers
+    // GENERAL PURPOSE REGISTERS
+
+    A, // General-purpose register A
+    B, // General-purpose register B
+    C, // General-purpose register C
+    D, // General-purpose register D
+    E, // General-purpose register E
+    F, // General-purpose register F
+
+    NUM_GENERAL_REGISTERS, // Total number of general-purpose registers
+
+    // SPECIAL PURPOSE REGISTERS
+
+    IP, // Instruction pointer register
+    SP, // Stack pointer register
+
+    NUM_REGISTERS // Total number of registers
+
 } RegisterSet;
 
 // Array to hold the values of the general-purpose registers
@@ -132,7 +141,7 @@ void execute(int instruction)
             int reg = program[REGISTER[IP]]; // Fetch the register index from the next instruction in the program array
             REGISTER[IP]++;                  // Move to the next instruction which should be the value to set
             value = program[REGISTER[IP]];   // Fetch the value to set from the next instruction in the program array
-            if (reg >= 0 && reg < NUM_REGISTERS)
+            if (reg >= 0 && reg < NUM_GENERAL_REGISTERS)
             {
                 REGISTER[reg] = value; // Set the value of the specified register
             }
