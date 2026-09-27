@@ -33,7 +33,9 @@ Each `OpCode` represents one task that the machine "understands".
 
 Read only sequence of _[instructions]_ like `0 3 0 4 3 1 7`. This sequence represents the machine-code for the virtual machine to execute.
 
-Programs are often written in a human-readable language which is then translated into machine-code for the execution. This human-readable language is called ***assembly***.
+Programs are often written in a human-readable language which is then translated into machine-code for the execution. This human-readable language is called ***assembly***. A separate program called an ***assembler*** is responsible for converting the assembly code into machine-code.
+
+This project uses a custom dialect which I will call `chasm`.
 
 ```asm
 PSH 3
@@ -48,6 +50,13 @@ To the virtual machine, this is simply an sequence of numbers.
 ```asm
 0 3 0 4 3 1 7
 ```
+
+#### Assembly
+
+Assembly is a human-readable representation of machine-code instructions. Each assembly instruction corresponds to a specific `OpCode` and its operands. The assembler translates these assembly instructions into the corresponding machine-code that the virtual machine can execute.
+
+> ![NOTE]
+> Although the ***assembler*** and ***compiler*** sound similar  on the surface, they are **not** the same. An assembler simply translates, word-for-word, the assembly code into machine-code, replacing each assembly instruction with its corresponding binary representation.
 
 ### Program Counter or Instruction Pointer
 
