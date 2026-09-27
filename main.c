@@ -1,5 +1,6 @@
 // Library
 #include <stdio.h>
+#include <stdlib.h>
 
 // INSTRUCTION SET
 // ---------------
@@ -20,11 +21,13 @@ typedef enum
 // PROGRAM
 // -------
 
+#define MAX_PROGRAM_SIZE 1024 // Maximum size of the program that can be loaded into memory
+
 // The program to be executed by the virtual machine
 // It is simply a sequence of instructions and their operands.
 // Each instruction is represented by an integer corresponding to the InstructionSet enum
 // and as such is simply an array of integers. e.g. 0 3 0 4 3 2 4
-const int program[] = {
+int program[MAX_PROGRAM_SIZE] = {
     // Push 3 onto the stack
     PSH,
     3,
@@ -40,7 +43,7 @@ const int program[] = {
 };
 
 // The total length of the program
-const int program_length = sizeof(program) / sizeof(program[0]);
+int program_length = sizeof(program) / sizeof(program[0]);
 
 // VM STATE
 // --------
@@ -247,12 +250,12 @@ void execute(int instruction)
     }
 }
 
-// ====
-// MAIN
-// ====
+// ---
+// RUN
+// ---
 
-// The main function of the virtual machine. It initializes the running flag and enters the main execution loop.
-int main(void)
+// The main function of the virtual machine. It initializes the running flag and enters the main execution loop
+int run()
 {
     REGISTER[SP] = -1; // Initialize the stack pointer register to -1 indicating an empty stack
     REGISTER[IP] = 0;  // Initialize the instruction pointer register to 0 indicating the start of the program
@@ -266,4 +269,70 @@ int main(void)
     }
 
     return 0; // Return 0 to indicate successful execution of the program
+}
+
+// ====
+// MAIN
+// ====
+
+// loads the `.chasm` assembly file, translates it into machine code, and stores it into memory for execution
+void load_program(const char *filename)
+{
+    // Open the file for reading
+    FILE *file = fopen(filename, "r");
+    if (!file)
+    {
+        printf("Error: Could not open file %s\n", filename);
+        exit(1);
+    }
+
+    int p = 0; // The program cursor index
+
+    char word[16]; // Buffer to store the current word being processed
+    int w = 0;     // Index within the current word buffer
+    char c = 0;    // Variable to store the current character being read from the file
+    while ((c = fgetc(file)) != EOF)
+    {
+        if (c == ' ' || c == '\n' || c == '\t')
+        {
+            word[w] = '\0';          // Null-terminate the current word
+            int number = atoi(word); // Convert the current word to an number
+            program[p++] = number;   // Store the converted number in the program array, and move the program cursor to the next position
+            w = 0;                   // Reset the word index for the next word
+        }
+        else
+        {
+            word[w++] = c; // Store the current character in the word buffer and increment the word index
+        }
+    }
+
+    // Handle the last word in the file if it wasn't followed by a whitespace character
+    if (w > 0)
+    {
+        word[w] = '\0';          // Null-terminate the last word
+        int number = atoi(word); // Convert the last word to a number
+        program[p++] = number;   // Store the converted number in the program array
+    }
+
+    program_length = p; // Store the length of the program in the program_length variable
+
+    for (int i = 0; i < program_length; i++)
+    {
+        printf("%d ", program[i]); // Print each instruction in the program array
+    }
+    printf("\n"); // Print a newline after printing all instructions
+
+    fclose(file);
+}
+
+// The main entrypoint of the program
+int main(int argc, char *argv[])
+{
+    // If a program file is provided as a command-line argument...
+    if (argc > 1)
+    {
+        load_program(argv[1]); // Load the program file into the virtual machine's memory
+    }
+
+    return run();
 }
