@@ -55,7 +55,7 @@ To the virtual machine, this is simply an sequence of numbers.
 
 Assembly is a human-readable representation of machine-code instructions. Each assembly instruction corresponds to a specific `OpCode` and its operands. The assembler translates these assembly instructions into the corresponding machine-code that the virtual machine can execute.
 
-> ![NOTE]
+> [!NOTE]
 > Although the ***assembler*** and ***compiler*** sound similar  on the surface, they are **not** the same. An assembler simply translates, word-for-word, the assembly code into machine-code, replacing each assembly instruction with its corresponding binary representation.
 
 ### Program Counter or Instruction Pointer
